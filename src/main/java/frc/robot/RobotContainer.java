@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.Map;
+
 import com.ctre.phoenix.CANifier;
 
 import edu.wpi.cscore.UsbCamera;
@@ -8,10 +10,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CannonAimSetPercentOutputWithController;
 import frc.robot.commands.CannonFiringSolenoidSetState;
@@ -33,8 +34,14 @@ public class RobotContainer {
   private final Drivetrain mDrivetrain = new Drivetrain();
   private final RGBController mRGBController = new RGBController(new CANifier(Constants.CANIFIER));
 
+  private enum CommandSelector {
+    CANNON_RELOADING,
+    CANNON_FULL_FIRING_TANK,
+    CANNON_READY_TO_FIRE
+  }
+
   public RobotContainer() {
-    mCannon.setDefaultCommand(new ConditionalCommand(cannonReloading(), cannonReadyToFire(), () -> mCannon.getFiringTankPressure() < 80.0));
+    mCannon.setDefaultCommand(cannonReloadingCommands());
     mCannonAngleAdjust.setDefaultCommand(new CannonAimSetPercentOutputWithController(mCannonAngleAdjust, mXbox));
     mDrivetrain.setDefaultCommand(new DrivetrainArcadeDrive(mDrivetrain, mXbox));
 
@@ -66,24 +73,43 @@ public class RobotContainer {
     xButtonRightBumper.whenPressed(new CannonRevolve(mCannon, 1, 0.7));
   }
 
-  public Command cannonReloading() {
+  private Command cannonReloading() {
     Command mCommand = new SequentialCommandGroup(
       new ParallelRaceGroup(
         new RGBSetColor(mRGBController, Color.Black),
-        new CannonFiringSolenoidSetState(mCannon, false),
-        new WaitCommand(0.5)
+        new CannonFiringSolenoidSetState(mCannon, false).withTimeout(0.5)
       ),
-      new CannonLoadingSolenoidSetState(mCannon, true)
+      new CannonLoadingSolenoidSetState(mCannon, true).withTimeout(0.5)
     );
 
     return mCommand;
   }
-  
-  public Command cannonReadyToFire() {
-    Command mCommand = new ParallelCommandGroup(
-      new RGBSetColor(mRGBController, Color.Red),
-      new CannonLoadingSolenoidSetState(mCannon, false)
-    );
+
+  private Command cannonReadyToFire() {
+    return new RGBSetColor(mRGBController, Color.Red).withTimeout(0.1);
+  }
+
+  private Command cannonFullFiringTank() {
+    return new CannonLoadingSolenoidSetState(mCannon, false).withTimeout(0.5);
+  }
+
+  private CommandSelector cannonReloadingSelector() {
+    if (mCannon.getFiringTankPressure() <= 75.0) {
+      return CommandSelector.CANNON_RELOADING;
+    } else if (mCannon.getFiringTankPressure() >= 80.0) {
+      return CommandSelector.CANNON_FULL_FIRING_TANK;
+    } else {
+      return CommandSelector.CANNON_READY_TO_FIRE;
+    }
+  }
+
+  public Command cannonReloadingCommands() {
+    Command mCommand = new SelectCommand(
+      Map.ofEntries(
+        Map.entry(CommandSelector.CANNON_RELOADING, cannonReloading()),
+        Map.entry(CommandSelector.CANNON_FULL_FIRING_TANK, cannonFullFiringTank()),
+        Map.entry(CommandSelector.CANNON_READY_TO_FIRE, cannonReadyToFire())), 
+      this::cannonReloadingSelector);
 
     return mCommand;
   }
@@ -93,19 +119,14 @@ public class RobotContainer {
 
     Command mCommand = new SequentialCommandGroup(
       new ParallelRaceGroup(
-        new CannonLoadingSolenoidSetState(mCannon, false),
         new RGBSetColor(mRGBController, redFlashing, 0.2),
-        new WaitCommand(1.0)
+        new CannonLoadingSolenoidSetState(mCannon, false).withTimeout(1.0)
       ),
       new ParallelRaceGroup(
-        new CannonFiringSolenoidSetState(mCannon, true),
         new RGBSetColor(mRGBController, Color.White),
-        new WaitCommand(0.5)
+        new CannonFiringSolenoidSetState(mCannon, true).withTimeout(0.5)
       ),
-      new ParallelRaceGroup(
-        new RGBSetColor(mRGBController, Color.Black),
-        new WaitCommand(0.5)
-      ),
+      new RGBSetColor(mRGBController, Color.Black).withTimeout(0.5),
       new CannonRevolve(mCannon, 1, 0.7)
     );
 
