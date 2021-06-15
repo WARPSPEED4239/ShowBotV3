@@ -116,7 +116,7 @@ public class RobotContainer {
 
   public Command cannonRevolveThenFire() {
     Command mCommand = new SequentialCommandGroup(
-      new CannonRevolve(mCannon, 1, 0.7),
+      new CannonRevolve(mCannon, 1, -0.7),
       cannonFire()
     );
 
