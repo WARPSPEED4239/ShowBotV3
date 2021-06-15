@@ -58,7 +58,7 @@ public class RobotContainer {
 		xButtonLeftStick = new JoystickButton(mXbox, 9);
     xButtonRightStick = new JoystickButton(mXbox, 10);
     
-    xButtonA.whenPressed(new ConditionalCommand(cannonFire(), new InstantCommand(), () -> mCannon.getFiringTankPressure() >= 80.0));
+    xButtonA.whenPressed(new ConditionalCommand(cannonFire(), new InstantCommand(), () -> mCannon.getFiringTankPressure() >= 75.0));
     xButtonB.whenPressed(new CannonRevolve(mCannon, 8, 1.0));
     xButtonX.whenPressed(new CannonRevolve(mCannon, 8, -1.0));
 
@@ -93,7 +93,7 @@ public class RobotContainer {
 
     Command mCommand = new SequentialCommandGroup(
       new ParallelRaceGroup(
-        new CannonFiringSolenoidSetState(mCannon, false),
+        new CannonLoadingSolenoidSetState(mCannon, false),
         new RGBSetColor(mRGBController, redFlashing, 0.2),
         new WaitCommand(1.0)
       ),
