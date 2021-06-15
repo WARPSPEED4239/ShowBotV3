@@ -20,7 +20,7 @@ public class Cannon extends SubsystemBase {
 
   private final Solenoid loadingSolenoid = new Solenoid(Constants.CANNON_LOADING_SOLENOID);
   private final Solenoid firingSolenoid = new Solenoid(Constants.CANNON_FIRING_SOLENOID);
-  private final DigitalInput revovleLimitSwitch = new DigitalInput(Constants.CANNON_REVOLVE_LIMIT_SWITCH);
+  private final DigitalInput revolveLimitSwitch = new DigitalInput(Constants.CANNON_REVOLVE_LIMIT_SWITCH);
 
   private final AnalogInput storagePressure = new AnalogInput(Constants.CANNON_STORAGE_PRESSURE);
   private final AnalogInput firingPressure = new AnalogInput(Constants.CANNON_FIRING_PRESSURE);
@@ -75,8 +75,8 @@ public class Cannon extends SubsystemBase {
     return loadingSolenoid.get();
   }
 
-  public boolean getRevovleLimitSwitch() {
-    return !revovleLimitSwitch.get();
+  public boolean getRevolveLimitSwitch() {
+    return !revolveLimitSwitch.get();
   }
 
   public boolean getFiringSolenoidState() {

@@ -21,7 +21,7 @@ public class CannonRevolve extends CommandBase {
   public void initialize() {
     mNumberOfBarrelsAdvanced = 0;
     
-    if (mCannon.getRevovleLimitSwitch()) {
+    if (mCannon.getRevolveLimitSwitch()) {
       waitingForLimit = false;
     } else {
       waitingForLimit = true;
@@ -33,12 +33,12 @@ public class CannonRevolve extends CommandBase {
     mCannon.setPercentOutput(mPercentOutput);
 
     if (waitingForLimit) {
-      if (mCannon.getRevovleLimitSwitch()) {
+      if (mCannon.getRevolveLimitSwitch()) {
         mNumberOfBarrelsAdvanced++;
         waitingForLimit = false;
       }
     } else {
-      if (!mCannon.getRevovleLimitSwitch()) {
+      if (!mCannon.getRevolveLimitSwitch()) {
         waitingForLimit = true;
       }
     }
