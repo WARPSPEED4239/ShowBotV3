@@ -65,7 +65,7 @@ public class RobotContainer {
 		xButtonLeftStick = new JoystickButton(mXbox, 9);
     xButtonRightStick = new JoystickButton(mXbox, 10);
     
-    xButtonA.whenPressed(new ConditionalCommand(new ConditionalCommand(cannonFire(), cannonRevolveThenFire(), () -> mCannon.getRevolveLimitSwitch()), new InstantCommand(), () -> mCannon.getFiringTankPressure() >= 75.0));
+    xButtonA.whenPressed(new ConditionalCommand(new ConditionalCommand(cannonFire(), new CannonRevolve(mCannon, 1, -0.7), () -> mCannon.getRevolveLimitSwitch()), new InstantCommand(), () -> mCannon.getFiringTankPressure() >= 75.0));
     xButtonB.whenPressed(new CannonRevolve(mCannon, 8, 1.0));
     xButtonX.whenPressed(new CannonRevolve(mCannon, 8, -1.0));
 
@@ -110,15 +110,6 @@ public class RobotContainer {
         Map.entry(CommandSelector.CANNON_FULL_FIRING_TANK, cannonFullFiringTank()),
         Map.entry(CommandSelector.CANNON_READY_TO_FIRE, cannonReadyToFire())), 
       this::cannonReloadingSelector);
-
-    return mCommand;
-  }
-
-  public Command cannonRevolveThenFire() {
-    Command mCommand = new SequentialCommandGroup(
-      new CannonRevolve(mCannon, 1, -0.7),
-      cannonFire()
-    );
 
     return mCommand;
   }
