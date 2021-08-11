@@ -65,12 +65,12 @@ public class RobotContainer {
 		xButtonLeftStick = new JoystickButton(mXbox, 9);
     xButtonRightStick = new JoystickButton(mXbox, 10);
     
-    xButtonA.whenPressed(new ConditionalCommand(new ConditionalCommand(cannonFire(), new CannonRevolve(mCannon, 1, -0.7), () -> mCannon.getRevolveLimitSwitch()), new InstantCommand(), () -> mCannon.getFiringTankPressure() >= 75.0));
+    xButtonA.whenPressed(new ConditionalCommand(new ConditionalCommand(cannonFire(), new CannonRevolve(mCannon, 1, -0.4), () -> mCannon.getRevolveLimitSwitch()), new InstantCommand(), () -> mCannon.getFiringTankPressure() >= 75.0));
     xButtonB.whenPressed(new CannonRevolve(mCannon, 8, 1.0));
     xButtonX.whenPressed(new CannonRevolve(mCannon, 8, -1.0));
 
-    xButtonLeftBumper.whenPressed(new CannonRevolve(mCannon, 1, -0.7));
-    xButtonRightBumper.whenPressed(new CannonRevolve(mCannon, 1, 0.7));
+    xButtonLeftBumper.whenPressed(new CannonRevolve(mCannon, 1, -0.4));
+    xButtonRightBumper.whenPressed(new CannonRevolve(mCannon, 1, 0.4));
   }
 
   private Command cannonReloading() {
@@ -127,7 +127,7 @@ public class RobotContainer {
         new CannonFiringSolenoidSetState(mCannon, true).withTimeout(0.5)
       ),
       new RGBSetColor(mRGBController, Color.Black).withTimeout(0.5),
-      new CannonRevolve(mCannon, 1, 0.7)
+      new CannonRevolve(mCannon, 1, 0.4)
     );
 
     return mCommand;
