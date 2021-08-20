@@ -3,10 +3,10 @@ package frc.robot;
 public final class Constants {
     public static final int DRIVETRAIN_MOTOR_LEFT_1 = 1, //SPARK MAX
                             DRIVETRAIN_MOTOR_LEFT_2 = 2,
-                            DRIVETRAIN_MOTOR_RIGHT_1 = 3,
-                            DRIVETRAIN_MOTOR_RIGHT_2 = 4,
+                            DRIVETRAIN_MOTOR_RIGHT_1 = 4,
+                            DRIVETRAIN_MOTOR_RIGHT_2 = 5,
 
-                            CANNON_ANGLE_ADJUST_MOTOR = 5,
+                            CANNON_ANGLE_ADJUST_MOTOR = 3,
                             CANNON_REVOLVE_MOTOR = 6,
                             
                             CANIFIER = 1;
