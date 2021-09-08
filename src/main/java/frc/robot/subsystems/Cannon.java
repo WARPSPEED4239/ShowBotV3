@@ -1,26 +1,15 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Cannon extends SubsystemBase {
-  private final int CURRENT_LIMIT = 45;
-  private final double RAMP_RATE = 0.05;
-
-  private final CANSparkMax revolveMotor = new CANSparkMax(Constants.CANNON_REVOLVE_MOTOR, MotorType.kBrushed);
-
   private final Solenoid loadingSolenoid = new Solenoid(Constants.CANNON_LOADING_SOLENOID);
   private final Solenoid firingSolenoid = new Solenoid(Constants.CANNON_FIRING_SOLENOID);
-  private final DigitalInput revolveLimitSwitch = new DigitalInput(Constants.CANNON_REVOLVE_LIMIT_SWITCH);
 
   private final AnalogInput storagePressure = new AnalogInput(Constants.CANNON_STORAGE_PRESSURE);
   private final AnalogInput firingPressure = new AnalogInput(Constants.CANNON_FIRING_PRESSURE);
@@ -30,14 +19,7 @@ public class Cannon extends SubsystemBase {
   private final double SLOPE = 250.0;
   private final double Y_INTERCEPT = -25.0;
 
-  public Cannon() {
-    revolveMotor.restoreFactoryDefaults();
-    revolveMotor.setInverted(false);
-    revolveMotor.setIdleMode(IdleMode.kBrake);
-    revolveMotor.setSmartCurrentLimit(CURRENT_LIMIT);
-    revolveMotor.setOpenLoopRampRate(RAMP_RATE);
-    revolveMotor.burnFlash();
-  }
+  public Cannon() {}
 
   @Override
   public void periodic() {
@@ -53,16 +35,6 @@ public class Cannon extends SubsystemBase {
     SmartDashboard.putBoolean("Compressor Status", getCompressorStatus());
   }
 
-  public void setPercentOutput(double output) {
-    if (output > 1.0) {
-      output = 1.0;
-    } else if (output < -1.0) {
-      output = -1.0;
-    }
-
-    revolveMotor.set(output);
-  }
-
   public void setLoadingSolenoidState(boolean open) {
     loadingSolenoid.set(open);
   }
@@ -73,10 +45,6 @@ public class Cannon extends SubsystemBase {
 
   public boolean getLoadingSolenoidState() {
     return loadingSolenoid.get();
-  }
-
-  public boolean getRevolveLimitSwitch() {
-    return !revolveLimitSwitch.get();
   }
 
   public boolean getFiringSolenoidState() {
