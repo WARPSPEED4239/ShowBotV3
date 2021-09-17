@@ -5,25 +5,17 @@ import com.ctre.phoenix.CANifier;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CannonAimSetPercentOutputWithController;
 import frc.robot.commands.CannonFiringSolenoidSetState;
 import frc.robot.commands.CannonLoadingSolenoidSetState;
 import frc.robot.commands.CannonRevolveSetPercentOutput;
-import frc.robot.commands.CannonRevolveSpin;
 import frc.robot.commands.DrivetrainArcadeDrive;
-import frc.robot.commands.RGBSetColor;
 import frc.robot.subsystems.Cannon;
 import frc.robot.subsystems.CannonAngleAdjust;
 import frc.robot.subsystems.CannonRevolve;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.tools.RGBController;
-import frc.robot.tools.RGBController.Color;
 
 public class RobotContainer {
   private XboxController mXbox = new XboxController(0);
@@ -37,7 +29,7 @@ public class RobotContainer {
   private final double MAX_FIRING_PSI = 80.0;
 
   public RobotContainer() {
-    mCannon.setDefaultCommand(cannonReloading());
+    mCannon.setDefaultCommand(new CannonFiringSolenoidSetState(mCannon, false));
     mCannonRevolve.setDefaultCommand(new CannonRevolveSetPercentOutput(mCannonRevolve, 0.0));
     mCannonAngleAdjust.setDefaultCommand(new CannonAimSetPercentOutputWithController(mCannonAngleAdjust, mXbox));
     mDrivetrain.setDefaultCommand(new DrivetrainArcadeDrive(mDrivetrain, mXbox));
@@ -61,16 +53,23 @@ public class RobotContainer {
 		xButtonRightBumper = new JoystickButton(mXbox, 6);
 		xButtonLeftStick = new JoystickButton(mXbox, 9);
     xButtonRightStick = new JoystickButton(mXbox, 10);
-    
-    xButtonA.whenPressed(new ConditionalCommand(new ConditionalCommand(cannonFire(), new CannonRevolveSpin(mCannonRevolve, 1, -0.4), () -> mCannonRevolve.getRevolveLimitSwitch()), new InstantCommand(), () -> mCannon.getFiringTankPressure() >= MIN_FIRING_PSI));
-    xButtonB.whenPressed(new CannonRevolveSpin(mCannonRevolve, 8, 1.0));
-    xButtonX.whenPressed(new CannonRevolveSpin(mCannonRevolve, 8, -1.0));
 
-    xButtonLeftBumper.whenPressed(new CannonRevolveSpin(mCannonRevolve, 1, -0.4));
-    xButtonRightBumper.whenPressed(new CannonRevolveSpin(mCannonRevolve, 1, 0.4));
+    xButtonA.whileHeld(new CannonFiringSolenoidSetState(mCannon, true));    
+    xButtonB.whenPressed(new CannonLoadingSolenoidSetState(mCannon, true));
+    xButtonY.whenPressed(new CannonLoadingSolenoidSetState(mCannon, false));
+
+    xButtonLeftBumper.whileHeld(new CannonRevolveSetPercentOutput(mCannonRevolve, -0.4));
+    xButtonRightBumper.whileHeld(new CannonRevolveSetPercentOutput(mCannonRevolve, 0.4));
+
+    // xButtonA.whenPressed(new ConditionalCommand(new ConditionalCommand(cannonFire(), new CannonRevolveSpin(mCannonRevolve, 1, -0.4), () -> mCannonRevolve.getRevolveLimitSwitch()), new InstantCommand(), () -> mCannon.getFiringTankPressure() >= MIN_FIRING_PSI));
+    // xButtonB.whenPressed(new CannonRevolveSpin(mCannonRevolve, 8, 1.0));
+    // xButtonX.whenPressed(new CannonRevolveSpin(mCannonRevolve, 8, -1.0));
+
+    // xButtonLeftBumper.whenPressed(new CannonRevolveSpin(mCannonRevolve, 1, -0.4));
+    // xButtonRightBumper.whenPressed(new CannonRevolveSpin(mCannonRevolve, 1, 0.4));
   }
 
-  private Command cannonReloading() { // ERROR: If statement is only checked once on init
+  /* public Command cannonReloading() { // ERROR: If statement is only checked once on init
     if (mCannon.getFiringTankPressure() <= MIN_FIRING_PSI) {
       Command mCommand = new SequentialCommandGroup(
         new ParallelRaceGroup(
@@ -105,7 +104,7 @@ public class RobotContainer {
     );
 
     return mCommand;
-  }
+  } */
 
   public RGBController getRGBController() {
     return mRGBController;
