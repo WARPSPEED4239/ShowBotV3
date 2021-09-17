@@ -33,6 +33,8 @@ public class RobotContainer {
   private final CannonAngleAdjust mCannonAngleAdjust = new CannonAngleAdjust();
   private final Drivetrain mDrivetrain = new Drivetrain();
   private final RGBController mRGBController = new RGBController(new CANifier(Constants.CANIFIER));
+  private final double MIN_FIRING_PSI = 75.0;
+  private final double MAX_FIRING_PSI = 80.0;
 
   public RobotContainer() {
     mCannon.setDefaultCommand(cannonReloading());
@@ -60,7 +62,7 @@ public class RobotContainer {
 		xButtonLeftStick = new JoystickButton(mXbox, 9);
     xButtonRightStick = new JoystickButton(mXbox, 10);
     
-    xButtonA.whenPressed(new ConditionalCommand(new ConditionalCommand(cannonFire(), new CannonRevolveSpin(mCannonRevolve, 1, -0.4), () -> mCannonRevolve.getRevolveLimitSwitch()), new InstantCommand(), () -> mCannon.getFiringTankPressure() >= 75.0));
+    xButtonA.whenPressed(new ConditionalCommand(new ConditionalCommand(cannonFire(), new CannonRevolveSpin(mCannonRevolve, 1, -0.4), () -> mCannonRevolve.getRevolveLimitSwitch()), new InstantCommand(), () -> mCannon.getFiringTankPressure() >= MIN_FIRING_PSI));
     xButtonB.whenPressed(new CannonRevolveSpin(mCannonRevolve, 8, 1.0));
     xButtonX.whenPressed(new CannonRevolveSpin(mCannonRevolve, 8, -1.0));
 
@@ -68,8 +70,8 @@ public class RobotContainer {
     xButtonRightBumper.whenPressed(new CannonRevolveSpin(mCannonRevolve, 1, 0.4));
   }
 
-  private Command cannonReloading() {
-    if (mCannon.getFiringTankPressure() <= 75.0) {
+  private Command cannonReloading() { // ERROR: If statement is only checked once on init
+    if (mCannon.getFiringTankPressure() <= MIN_FIRING_PSI) {
       Command mCommand = new SequentialCommandGroup(
         new ParallelRaceGroup(
           new RGBSetColor(mRGBController, Color.Black),
@@ -79,7 +81,7 @@ public class RobotContainer {
       );
 
       return mCommand;
-    } else if (mCannon.getFiringTankPressure() >= 80.0) {
+    } else if (mCannon.getFiringTankPressure() >= MAX_FIRING_PSI) {
       return new CannonLoadingSolenoidSetState(mCannon, false).withTimeout(0.5);
     } else {
       return new RGBSetColor(mRGBController, Color.Red).withTimeout(0.1);
