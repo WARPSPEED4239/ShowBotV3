@@ -20,7 +20,7 @@ public class CannonAimSetPercentOutputWithController extends CommandBase {
 
   @Override
   public void execute() {
-    double mOutput = mXbox.getRawAxis(5) * 0.5;
+    double mOutput = mXbox.getRawAxis(5);
 
     if (mCannonAngleAdjust.getTopLimitSwtich() && mCannonAngleAdjust.getMotorOutputCurrent() > Constants.EPSILON) { //TODO Check Direction
       mCannonAngleAdjust.setPercentOutput(0.0);

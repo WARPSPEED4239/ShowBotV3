@@ -18,7 +18,7 @@ public class CannonAngleAdjust extends SubsystemBase {
 
   public CannonAngleAdjust() {
     angleAdjustMotor.restoreFactoryDefaults();
-    angleAdjustMotor.setInverted(false);
+    angleAdjustMotor.setInverted(true);
     angleAdjustMotor.setIdleMode(IdleMode.kBrake);
     angleAdjustMotor.setSmartCurrentLimit(CURRENT_LIMIT);
     angleAdjustMotor.setOpenLoopRampRate(RAMP_RATE);
@@ -30,12 +30,6 @@ public class CannonAngleAdjust extends SubsystemBase {
   }
 
   public void setPercentOutput(double output) {
-    if (output > 0.5) {
-      output = 0.5;
-    } else if (output < -0.5) {
-      output = -0.5;
-    }
-
     angleAdjustMotor.set(output);
   }
 
