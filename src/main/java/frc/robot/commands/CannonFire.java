@@ -12,6 +12,10 @@ public class CannonFire extends CommandBase {
   private final RGBController mRGBController;
   private final Color[] redFlashing = {Color.Red, Color.Black};
 
+  private boolean stopped;
+  private double stopTime;
+  private boolean fired;
+
   public CannonFire(Cannon cannon, CannonRevolve cannonRevolve, RGBController RGBController) {
     mCannon = cannon;
     mCannonRevolve = cannonRevolve;
@@ -31,7 +35,8 @@ public class CannonFire extends CommandBase {
     mCannon.setFiringSolenoidState(true);
     //0.5 Delay
     mRGBController.setColor(Color.Black);
-    //Revolve
+    //1.5 Delay
+    mCannon.setFiringSolenoidState(false);
   }
 
   @Override

@@ -22,8 +22,6 @@ public class CannonReloading extends CommandBase {
   public void execute() {
     if (mCannon.getFiringTankPressure() <= 75.0) {
       mRGBController.setColor(Color.Black);
-      mCannon.setFiringSolenoidState(false);
-      //DELAY 0.5
       mCannon.setLoadingSolenoidState(true);
     } else if (mCannon.getFiringTankPressure() >= 80.0) {
       mCannon.setLoadingSolenoidState(false);

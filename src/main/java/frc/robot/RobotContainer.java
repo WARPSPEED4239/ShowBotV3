@@ -55,7 +55,7 @@ public class RobotContainer {
 		xButtonLeftStick = new JoystickButton(mXbox, 9);
     xButtonRightStick = new JoystickButton(mXbox, 10);
     
-    xButtonA.whenPressed(new ConditionalCommand(new ConditionalCommand(new CannonFire(mCannon, mCannonRevolve, mRGBController), new CannonRevolveSpin(mCannonRevolve, 1, -0.4), () -> mCannonRevolve.getRevolveLimitSwitch()), new InstantCommand(), () -> mCannon.getFiringTankPressure() >= 75.0));
+    xButtonA.whenPressed(new ConditionalCommand(new ConditionalCommand(new CannonFire(mCannon, mCannonRevolve, mRGBController).andThen(new CannonRevolveSpin(mCannonRevolve, 1, 0.4)), new CannonRevolveSpin(mCannonRevolve, 1, -0.4), () -> mCannonRevolve.getRevolveLimitSwitch()), new InstantCommand(), () -> mCannon.getFiringTankPressure() >= 75.0));
     xButtonB.whenPressed(new CannonRevolveSpin(mCannonRevolve, 8, 1.0));
     xButtonX.whenPressed(new CannonRevolveSpin(mCannonRevolve, 8, -1.0));
 
