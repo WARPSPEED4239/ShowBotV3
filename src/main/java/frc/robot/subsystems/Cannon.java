@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -18,6 +19,9 @@ public class Cannon extends SubsystemBase {
   private final double DEFAULT_VOLTS = 4.52; // TODO Maybe have seperate tunes for each tank's desired PSI's
   private final double SLOPE = 250.0;
   private final double Y_INTERCEPT = -25.0;
+
+  private double lastLoadingClosedTime;
+  private double lastFiringOpenedTime;
 
   public Cannon() {}
 
@@ -36,11 +40,27 @@ public class Cannon extends SubsystemBase {
   }
 
   public void setLoadingSolenoidState(boolean open) {
+    if (!open) {
+      lastLoadingClosedTime = Timer.getFPGATimestamp();
+    }
+
     loadingSolenoid.set(open);
   }
 
   public void setFiringSolenoidState(boolean open) {
+    if (open) {
+      lastFiringOpenedTime = Timer.getFPGATimestamp();
+    }
+
     firingSolenoid.set(open);
+  }
+
+  public double getLoadingLastClosedTime() {
+    return lastLoadingClosedTime;
+  }
+
+  public double getFiringLastOpenedTime() {
+    return lastFiringOpenedTime;
   }
 
   public boolean getLoadingSolenoidState() {

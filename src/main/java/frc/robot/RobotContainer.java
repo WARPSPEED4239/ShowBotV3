@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CannonAimSetPercentOutputWithController;
 import frc.robot.commands.CannonFire;
+import frc.robot.commands.CannonFireRevovle;
 import frc.robot.commands.CannonReloading;
 import frc.robot.commands.CannonRevolveSetPercentOutput;
 import frc.robot.commands.CannonRevolveSpin;
@@ -55,7 +56,8 @@ public class RobotContainer {
 		xButtonLeftStick = new JoystickButton(mXbox, 9);
     xButtonRightStick = new JoystickButton(mXbox, 10);
     
-    xButtonA.whenPressed(new ConditionalCommand(new ConditionalCommand(new CannonFire(mCannon, mCannonRevolve, mRGBController).andThen(new CannonRevolveSpin(mCannonRevolve, 1, 0.4)), new CannonRevolveSpin(mCannonRevolve, 1, -0.4), () -> mCannonRevolve.getRevolveLimitSwitch()), new InstantCommand(), () -> mCannon.getFiringTankPressure() >= 75.0));
+    xButtonA.whenPressed(new CannonFireRevovle(mCannon, mCannonRevolve));
+    // xButtonA.whenPressed(new ConditionalCommand(new ConditionalCommand(new CannonFire(mCannon, mCannonRevolve, mRGBController).andThen(new CannonRevolveSpin(mCannonRevolve, 1, 0.4)), new CannonRevolveSpin(mCannonRevolve, 1, -0.4), () -> mCannonRevolve.getRevolveLimitSwitch()), new InstantCommand(), () -> mCannon.getFiringTankPressure() >= 75.0));
     xButtonB.whenPressed(new CannonRevolveSpin(mCannonRevolve, 8, 1.0));
     xButtonX.whenPressed(new CannonRevolveSpin(mCannonRevolve, 8, -1.0));
 
