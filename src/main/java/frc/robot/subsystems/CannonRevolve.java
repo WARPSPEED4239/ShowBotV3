@@ -16,7 +16,7 @@ public class CannonRevolve extends SubsystemBase {
   
   public CannonRevolve() {
     revolveMotor.restoreFactoryDefaults();
-    revolveMotor.setInverted(false); //TODO CHECK DIRECTION
+    revolveMotor.setInverted(true);
     revolveMotor.setIdleMode(IdleMode.kBrake);
     revolveMotor.setSmartCurrentLimit(CURRENT_LIMIT);
     revolveMotor.setOpenLoopRampRate(RAMP_RATE);

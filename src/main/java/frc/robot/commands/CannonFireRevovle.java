@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.Cannon;
 import frc.robot.subsystems.CannonRevolve;
 
@@ -10,7 +11,6 @@ public class CannonFireRevovle extends CommandBase {
 
   private final Cannon mCannon;
   private final CannonRevolve mCannonRevolve;
-  private double mStateTransistionTime;
   private boolean mNeededAlignment;
 
   private State mState;
@@ -79,13 +79,12 @@ public class CannonFireRevovle extends CommandBase {
   }
 
   private boolean checkPressure() {
-      return mCannon.getFiringTankPressure() >= 75.0;
+      return mCannon.getFiringTankPressure() >= Constants.MIN_FIRING_PRESSURE;
   }
 
   private void updateState(State state) {
     if (state != mState) {
       mState = state;
-      mStateTransistionTime = Timer.getFPGATimestamp();
     }
   }
 
@@ -100,7 +99,7 @@ public class CannonFireRevovle extends CommandBase {
     }
 
     mNeededAlignment = true;
-    mCannonRevolve.setPercentOutput(-0.4);
+    mCannonRevolve.setPercentOutput(-0.75);
   }
 
   private void fire() {
@@ -136,13 +135,13 @@ public class CannonFireRevovle extends CommandBase {
         if (!mCannonRevolve.getRevolveLimitSwitch()) {
           mRotateState = RotateState.MIDDLE_POSITION;
         }
-        mCannonRevolve.setPercentOutput(0.4);
+        mCannonRevolve.setPercentOutput(0.75);
         break;
       case MIDDLE_POSITION:
         if (mCannonRevolve.getRevolveLimitSwitch()) {
           mRotateState = RotateState.END_POSITION;
         }
-        mCannonRevolve.setPercentOutput(0.4);
+        mCannonRevolve.setPercentOutput(0.75);
         break;
       case END_POSITION:
         mCannonRevolve.setPercentOutput(0.0);
