@@ -23,5 +23,7 @@ public final class Constants {
 
                             COMPRESSOR = 0;
 
-    public static final double EPSILON = 0.0001;
+    public static final double EPSILON = 0.0001,
+                               MIN_FIRING_PRESSURE = 75.0,
+                               MAX_FIRING_PRESSURE = 80.0;
 }

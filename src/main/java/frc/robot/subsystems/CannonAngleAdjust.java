@@ -30,6 +30,12 @@ public class CannonAngleAdjust extends SubsystemBase {
   }
 
   public void setPercentOutput(double output) {
+    if (output > 1.0) {
+      output = 1.0;
+    } else if (output < -1.0) {
+      output = -1.0;
+    }
+    
     angleAdjustMotor.set(output);
   }
 

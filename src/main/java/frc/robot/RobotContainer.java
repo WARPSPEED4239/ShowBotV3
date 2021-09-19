@@ -25,8 +25,6 @@ public class RobotContainer {
   private final CannonAngleAdjust mCannonAngleAdjust = new CannonAngleAdjust();
   private final Drivetrain mDrivetrain = new Drivetrain();
   private final RGBController mRGBController = new RGBController(new CANifier(Constants.CANIFIER));
-  private final double MIN_FIRING_PSI = 75.0;
-  private final double MAX_FIRING_PSI = 80.0;
 
   public RobotContainer() {
     mCannon.setDefaultCommand(new CannonFiringSolenoidSetState(mCannon, false));
@@ -58,8 +56,8 @@ public class RobotContainer {
     xButtonB.whenPressed(new CannonLoadingSolenoidSetState(mCannon, true));
     xButtonY.whenPressed(new CannonLoadingSolenoidSetState(mCannon, false));
 
-    xButtonLeftBumper.whileHeld(new CannonRevolveSetPercentOutput(mCannonRevolve, -0.6));
-    xButtonRightBumper.whileHeld(new CannonRevolveSetPercentOutput(mCannonRevolve, 0.6));
+    xButtonLeftBumper.whileHeld(new CannonRevolveSetPercentOutput(mCannonRevolve, -0.75));
+    xButtonRightBumper.whileHeld(new CannonRevolveSetPercentOutput(mCannonRevolve, 0.75));
 
     // xButtonA.whenPressed(new ConditionalCommand(new ConditionalCommand(cannonFire(), new CannonRevolveSpin(mCannonRevolve, 1, -0.4), () -> mCannonRevolve.getRevolveLimitSwitch()), new InstantCommand(), () -> mCannon.getFiringTankPressure() >= MIN_FIRING_PSI));
     // xButtonB.whenPressed(new CannonRevolveSpin(mCannonRevolve, 8, 1.0));
