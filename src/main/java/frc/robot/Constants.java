@@ -11,9 +11,7 @@ public final class Constants {
                             
                             CANIFIER = 1;
 
-    public static final int CANNON_REVOLVE_LIMIT_SWITCH = 0, //DIO
-                            CANNON_ANGLE_ADJUST_TOP_LIMIT_SWITCH = 1,
-                            CANNON_ANGLE_ADJUST_BOTTOM_LIMIT_SWITCH = 2;
+    public static final int CANNON_REVOLVE_LIMIT_SWITCH = 0; //DIO
 
     public static final int CANNON_STORAGE_PRESSURE = 0, //ANALOG IN
                             CANNON_FIRING_PRESSURE = 1;
