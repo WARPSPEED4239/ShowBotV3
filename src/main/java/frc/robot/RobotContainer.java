@@ -2,7 +2,7 @@ package frc.robot;
 
 import com.ctre.phoenix.CANifier;
 
-import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -35,7 +35,7 @@ public class RobotContainer {
 
     configureButtonBindings();
 
-    UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture(0);
+    UsbCamera cam0 = CameraServer.startAutomaticCapture(0);
 		cam0.setResolution(320, 240);
     cam0.setFPS(10);
   }
