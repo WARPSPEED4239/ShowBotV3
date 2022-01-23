@@ -17,7 +17,7 @@ public final class Constants {
                             CANNON_FIRING_PRESSURE = 1;
 
     public static final int CANNON_LOADING_SOLENOID = 0, //PCM
-                            CANNON_FIRING_SOLENOID = 3,
+                            CANNON_FIRING_SOLENOID = 3;
 
     public static final double EPSILON = 0.0001,
                                MIN_FIRING_PRESSURE = 75.0,

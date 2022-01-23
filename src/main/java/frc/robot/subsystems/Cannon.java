@@ -1,14 +1,15 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Cannon extends SubsystemBase {
-  private final Solenoid loadingSolenoid = new Solenoid(Constants.CANNON_LOADING_SOLENOID);
-  private final Solenoid firingSolenoid = new Solenoid(Constants.CANNON_FIRING_SOLENOID);
+  private final Solenoid loadingSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.CANNON_LOADING_SOLENOID);
+  private final Solenoid firingSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.CANNON_FIRING_SOLENOID);
 
   private final AnalogInput storagePressure = new AnalogInput(Constants.CANNON_STORAGE_PRESSURE);
   private final AnalogInput firingPressure = new AnalogInput(Constants.CANNON_FIRING_PRESSURE);
