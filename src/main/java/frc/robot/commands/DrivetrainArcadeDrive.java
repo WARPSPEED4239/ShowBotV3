@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
@@ -20,8 +19,8 @@ public class DrivetrainArcadeDrive extends CommandBase {
 
   @Override
   public void execute() {
-    double move = mXbox.getTriggerAxis(Hand.kRight) - mXbox.getTriggerAxis(Hand.kLeft);
-    double rotate = (.533333 * Math.pow(mXbox.getX(Hand.kLeft), 3) + .466666 *  mXbox.getX(Hand.kLeft));
+    double move = mXbox.getRightTriggerAxis() - mXbox.getLeftTriggerAxis();
+    double rotate = (.533333 * Math.pow(mXbox.getLeftX(), 3) + .466666 *  mXbox.getLeftX());
 
     if (rotate > 0.85){
       rotate = 0.85;

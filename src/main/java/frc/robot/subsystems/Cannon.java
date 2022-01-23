@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,8 +18,8 @@ public class Cannon extends SubsystemBase {
   
   private final CANSparkMax revolveMotor = new CANSparkMax(Constants.CANNON_REVOLVE_MOTOR, MotorType.kBrushed);
 
-  private final Solenoid loadingSolenoid = new Solenoid(Constants.CANNON_LOADING_SOLENOID);
-  private final Solenoid firingSolenoid = new Solenoid(Constants.CANNON_FIRING_SOLENOID);
+  private final Solenoid loadingSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.CANNON_LOADING_SOLENOID);
+  private final Solenoid firingSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.CANNON_FIRING_SOLENOID);
   private final DigitalInput revovleLimitSwitch = new DigitalInput(Constants.CANNON_REVOLVE_LIMIT_SWITCH);
   private final AnalogInput storagePressure = new AnalogInput(Constants.CANNON_STORAGE_PRESSURE);
   private final AnalogInput firingPressure = new AnalogInput(Constants.CANNON_FIRING_PRESSURE);
