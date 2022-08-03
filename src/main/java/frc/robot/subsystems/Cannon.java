@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
@@ -15,7 +14,6 @@ public class Cannon extends SubsystemBase {
 
   private final AnalogInput storagePressure = new AnalogInput(Constants.CANNON_STORAGE_PRESSURE);
   private final AnalogInput firingPressure = new AnalogInput(Constants.CANNON_FIRING_PRESSURE);
-  private final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
 
   private final double DEFAULT_VOLTS = 4.52; // TODO Maybe have seperate tunes for each tank's desired PSI's
   private final double SLOPE = 250.0;
@@ -37,7 +35,6 @@ public class Cannon extends SubsystemBase {
     SmartDashboard.putNumber("Firing Sensor Volts", getFiringSensorVolts());
 
     SmartDashboard.putBoolean("Ready to Fire", getFiringTankPressure() >= 75.0);
-    SmartDashboard.putBoolean("Compressor Status", getCompressorStatus());
   }
 
   public void setLoadingSolenoidState(boolean open) {
@@ -86,17 +83,5 @@ public class Cannon extends SubsystemBase {
 
   public double getStorageSensorVolts() {
     return storagePressure.getVoltage();
-  }
-
-  public void turnOffCompressor() {
-    compressor.disable();
-  }
-
-  public void turnOnCompressor() {
-    compressor.enableDigital();
-  }
-
-  public boolean getCompressorStatus() {
-    return compressor.enabled();
   }
 }
