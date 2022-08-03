@@ -2,10 +2,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.tools.RGBController;
-import frc.robot.tools.RGBController.Color;
+//import frc.robot.tools.RGBController.Color;
 
 public class RGBSetColor extends CommandBase {
-  private final RGBController mRGBController;
+  /*private final RGBController mRGBController;
   private final Color mColor;
   private final Color[] mColors;
   private final double mCycleTime;
@@ -42,5 +42,5 @@ public class RGBSetColor extends CommandBase {
   @Override
   public boolean isFinished() {
     return false;
-  }
+  }*/
 }

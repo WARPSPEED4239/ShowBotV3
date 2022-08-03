@@ -2,7 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.tools.RGBController.Color;
+//import frc.robot.tools.RGBController.Color;
 
 public class Robot extends TimedRobot {
   private RobotContainer mRobotContainer;
@@ -11,8 +11,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     mRobotContainer = new RobotContainer();
 
-    Color[] colors = {Color.RedDim, Color.Black};
-    mRobotContainer.getRGBController().setColors(colors, 1.5);
+    //Color[] colors = {Color.RedDim, Color.Black};
+    //mRobotContainer.getRGBController().setColors(colors, 1.5);
   }
 
   @Override
@@ -22,8 +22,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    Color[] colors = {Color.RedDim, Color.Black};
-    mRobotContainer.getRGBController().setColors(colors, 1.5);
+    //Color[] colors = {Color.RedDim, Color.Black};
+    //mRobotContainer.getRGBController().setColors(colors, 1.5);
   }
 
   @Override

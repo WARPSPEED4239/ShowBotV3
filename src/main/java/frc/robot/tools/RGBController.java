@@ -3,12 +3,12 @@ package frc.robot.tools;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.ctre.phoenix.CANifier;
-import com.ctre.phoenix.CANifier.LEDChannel;
+//import com.ctre.phoenix.CANifier;
+//import com.ctre.phoenix.CANifier.LEDChannel;
 
 public class RGBController {
 
-	private static boolean timerOn = false;
+	/*private static boolean timerOn = false;
 
 	public enum Color {
 		Red, Black, White, Green, Blue, Purple, RedDim, WhiteDim, GreenDim, PurpleDim
@@ -119,5 +119,5 @@ public class RGBController {
 			mRGB.setLEDOutput(0.0, LEDChannel.LEDChannelC);
 			break;
 		}
-	}
+	}*/
 }
